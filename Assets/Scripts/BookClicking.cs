@@ -7,12 +7,15 @@ public class BookClicking : MonoBehaviour
     ShopButtons addKnowledge;
     Renderer bookColour;
 
+    [SerializeField] ParticleSystem vfx;
+
     public int clickAdd = 1;
     // Start is called before the first frame update
     void Start()
     {
         addKnowledge = GameObject.Find("ShopUI").GetComponent<ShopButtons>();
         bookColour = GetComponent<Renderer>();
+
 
 
     }
@@ -29,7 +32,9 @@ public class BookClicking : MonoBehaviour
         Debug.Log("knowledge added");
 
         bookColour.material.color = Color.red;
+        vfx.gameObject.SetActive(true);
         StartCoroutine(SetColourBack());
+        vfx.Play();
     }
 
     private IEnumerator SetColourBack()
@@ -37,4 +42,6 @@ public class BookClicking : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         bookColour.material.color = Color.white;
     }
+
+
 }
