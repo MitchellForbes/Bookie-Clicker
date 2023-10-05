@@ -10,13 +10,13 @@ public class BookClicking : MonoBehaviour
     [SerializeField] ParticleSystem vfx;
 
     public int clickAdd = 1;
+
+    public bool timerActive = false;
     // Start is called before the first frame update
     void Start()
     {
         addKnowledge = GameObject.Find("ShopUI").GetComponent<ShopButtons>();
         bookColour = GetComponent<Renderer>();
-
-
 
     }
 
@@ -28,13 +28,16 @@ public class BookClicking : MonoBehaviour
 
     private void OnMouseDown()
     {
-        addKnowledge.knowledge += clickAdd;
-        Debug.Log("knowledge added");
+        if (timerActive == true)
+        {
+            addKnowledge.knowledge += clickAdd;
+            Debug.Log("knowledge added");
 
-        bookColour.material.color = Color.red;
-        vfx.gameObject.SetActive(true);
-        StartCoroutine(SetColourBack());
-        vfx.Play();
+            bookColour.material.color = Color.red;
+            vfx.gameObject.SetActive(true);
+            StartCoroutine(SetColourBack());
+            vfx.Play();
+        }
     }
 
     private IEnumerator SetColourBack()

@@ -6,9 +6,9 @@ using TMPro;
 public class ShopButtons : MonoBehaviour
 {
     BookClicking bookCheck;
-    public float knowledge;
+    public int knowledge;
 
-    public float passKnowledge;
+    public int passKnowledge;
 
     private int priceItemOne;
     private int priceItemTwo;
@@ -32,9 +32,11 @@ public class ShopButtons : MonoBehaviour
     [SerializeField] TextMeshProUGUI itemSevenUI;
     [SerializeField] TextMeshProUGUI itemEightUI;
 
+    [SerializeField] TextMeshProUGUI highScoreText;
+
     [SerializeField] TextMeshProUGUI shopInfo;
 
-
+    public int highScore;
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +55,8 @@ public class ShopButtons : MonoBehaviour
 
         Itemcheck = false;
         passCheck = false;
+
+        LoadHighScore();
     }
 
     private void Update()
@@ -80,7 +84,7 @@ public class ShopButtons : MonoBehaviour
     {
         if(priceItemTwo <= knowledge)
         {
-            passKnowledge += 1f;
+            passKnowledge += 1;
             knowledge -= priceItemTwo;
             priceItemTwo = priceItemTwo * 2 - 5;
         }
@@ -101,7 +105,7 @@ public class ShopButtons : MonoBehaviour
     {
         if (priceItemFour <= knowledge)
         {
-            passKnowledge += 2f;
+            passKnowledge += 2;
             knowledge -= priceItemFour;
             priceItemFour = priceItemFour * 2 - 5;
         }
@@ -122,7 +126,7 @@ public class ShopButtons : MonoBehaviour
     {
         if (priceItemSix <= knowledge)
         {
-            passKnowledge += 3f;
+            passKnowledge += 3;
 
             knowledge -= priceItemSix;
             priceItemSix = priceItemSix * 2 - 5;
@@ -146,6 +150,8 @@ public class ShopButtons : MonoBehaviour
             passKnowledge *= 2;
             passCheck = true;
             knowledge -= priceItemEight;
+
+
         }
     }
 
@@ -153,13 +159,30 @@ public class ShopButtons : MonoBehaviour
     {
         knowledgeUI.text = $"Knowledge: {knowledge}";
         itemOneUI.text = $"Reading Glasses: {priceItemOne}";
-        itemTwoUI.text = $"Item 2: {priceItemTwo}";
-        itemThreeUI.text = $"Item 3: {priceItemThree}";
-        itemFourUI.text = $"Item 4: {priceItemFour}";
-        itemFiveUI.text = $"Item 5: {priceItemFive}";
-        itemSixUI.text = $"Item 6: {priceItemSix}";
-        itemSevenUI.text = $"Item 7: {priceItemSeven}";
-        itemEightUI.text = $"item 8: {priceItemEight}";
+        itemTwoUI.text = $"Read Aloud: {priceItemTwo}";
+        itemThreeUI.text = $"BookMark: {priceItemThree}";
+        itemFourUI.text = $"Teacher: {priceItemFour}";
+        itemFiveUI.text = $"Book Light: {priceItemFive}";
+        itemSixUI.text = $"Book of Potatos: {priceItemSix}";
+        itemSevenUI.text = $"Kindle: {priceItemSeven}";
+        itemEightUI.text = $"Another Book: {priceItemEight}";
+
+        highScoreText.text = $"HighScore: {highScore}";
+
+    }
+
+
+    public void HighScoreSave()
+    {
+
+        if(highScore <= knowledge)
+        {
+            highScore = knowledge;
+
+            SaveHighScore();
+        }
+
+        
     }
 
 
@@ -178,6 +201,25 @@ public class ShopButtons : MonoBehaviour
         }
     }
 
+
+
+    public void ResetShop()
+    {
+        knowledge = 0;
+        passKnowledge = 0;
+        priceItemOne = 10;
+        priceItemTwo = 20;
+        priceItemThree = 50;
+        priceItemFour = 50;
+        priceItemFive = 100;
+        priceItemSix = 100;
+        priceItemSeven = 5000;
+        priceItemEight = 5000;
+
+        Itemcheck = false;
+        passCheck = false;
+    }
+
     IEnumerator TimeCheck()
     {
         for (; ; )
@@ -186,5 +228,21 @@ public class ShopButtons : MonoBehaviour
             yield return new WaitForSeconds(.2f);
         }
     }
+
+
+    void SaveHighScore()
+    {
+        PlayerPrefs.SetInt("SavedHighScore", highScore);
+        Debug.Log("Score saved " + highScore);
+
+    }
+
+    void LoadHighScore()
+    {
+        highScore = PlayerPrefs.GetInt("SavedHighScore");
+        Debug.Log("Score Loaded " + highScore);
+    }
+
+
 
 }
